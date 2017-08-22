@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div class="row" style="padding: 20px 20px; min-height: 768px">
+
+    <div class="row">
+        <div class="page-header">
+            <h3>QConfig配置文件内存实时查看 <small>配置更新后，请刷新页面查看最新内容</small></h3>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="btn-group-vertical" role="group">
+            <span  class="btn btn-primary">100003173</span>
+            <button type="button" class="btn btn-default">application.properties</button>
+            <button type="button" class="btn btn-default">datasource.properties</button>
+            <button type="button" class="btn btn-default">hello.properties</button>
+            <button type="button" class="btn btn-primary disabled">100003173</button>
+            <button type="button" class="btn btn-default">application.properties</button>
+            <button type="button" class="btn btn-default">datasource.properties</button>
+            <button type="button" class="btn btn-default">hello.properties</button>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <textarea class="form-control" rows="15">
+        timeout = 500
+kibana.url = http://1.1.1.2:5600
+elastic.document.type = biz1中文
+elastic.cluster.name = es-cluster
+elastic.cluster = 2.2.2.2:9300,3.3.3.3,4.4.4.4:9300
+page.size = 20
+
+zookeeper.address = 10.1.12.2
+threadpool.max_threads = 30
+threadpool.blocking_queue_size = 50
+
+    </textarea>
+    </div>
+
+    <!--<div class="col-md-10">-->
+    <!--<table class="table table-bordered table-hover table-striped">-->
+    <!--<thead>-->
+    <!--<tr>-->
+    <!--<td width="30%">Key</td>-->
+    <!--<td width="70%">Value</td>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<tr>-->
+    <!--<td>hello</td>-->
+    <!--<td>main</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td>hello</td>-->
+    <!--<td>main</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td>hello</td>-->
+    <!--<td>main</td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+    <!--</table>-->
+    <!--</div>-->
+</div>
+
+
+<script type="application/javascript" src="vendor/jquery.min.js"></script>
+<script type="application/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script type="application/javascript" src="vendor/angular/angular.min.js"></script>
+<script type="application/javascript" src="vendor/angular/angular-resource.min.js"></script>
+</body>
+</html>
