@@ -21,6 +21,9 @@ public class MobileService {
     return mobileRepo.findByIdOrderByNumber(id);
   }
 
+  public List<MobileOrder> findAllMobiles(){
+    return mobileRepo.findByIdGreaterThan(0);
+  }
 /*
   public List<Sale> findAll(){
     return saleRepo.findAllByHouseExist();
