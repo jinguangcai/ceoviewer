@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<script type="text/javascript">
+    // 跳转到控制台
+    function doClick(){
+        alert("doClick...");
+        $.ajax({
+            url : '/hello',
+          //  data : "",
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                alert("hello...");
+               alert(data);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+</script>
+<body>
+<button onclick="doClick()">测试AJAX</button>
+</body>
+</html>
