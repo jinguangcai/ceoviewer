@@ -5,19 +5,27 @@
     <title>Title</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
+
+
 <script type="text/javascript">
+    var ids =[];
     // 跳转到控制台
     function doClick(){
         alert("doClick...");
         $.ajax({
-            url : '/hello',
+            url : '/mobile',
           //  data : "",
             async : true,
             type : "get",
             dataType : "json",
             success : function(data){
                 alert("hello...");
-               alert(data);
+                alert(data[0].number);
+                var len = data.length;
+                for(var i=0;i<len;i++){
+                    ids[i] = data[i].number;
+                }
+                alert(ids[len-1]);
             },
             error: function (err) {
                 console.log(err)

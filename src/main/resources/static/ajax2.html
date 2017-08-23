@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="./mint-ui.css">
+</head>
+
+<body>
+<button onclick="doClick()">测试AJAX</button>
+</body>
+<script src = './axios.js'></script>
+<!-- 先引入 Vue -->
+<script src="./vue.js"></script>
+<!-- 引入组件库 -->
+<script src="./mint-ui.js"></script>
+<script type="text/javascript">
+    var fetch = {
+        get: function (url) {
+            return axios.get(url).then(function (response) {
+                return response.data;
+            });
+        },
+        post: function (url, data) {
+            return axios.get(url + '?data=' + JSON.stringify(data)).then(function (response) {
+                return true;
+            });
+        }
+    };
+    var url = '/hello';
+</script>
+</html>
