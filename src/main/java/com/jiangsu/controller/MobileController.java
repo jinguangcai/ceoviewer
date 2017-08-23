@@ -1,8 +1,10 @@
 package com.jiangsu.controller;
 
 
+import com.jiangsu.entity.CtgChannel;
 import com.jiangsu.entity.FenjuHigh;
 import com.jiangsu.entity.MobileOrder;
+import com.jiangsu.service.CtgChannelService;
 import com.jiangsu.service.FenjuHighService;
 import com.jiangsu.service.MobileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,14 @@ public class MobileController {
   @Autowired
   private MobileService mobileService;
 
-  @Autowired
-  private FenjuHighService fenjuHighService;
+    @Autowired
+    private FenjuHighService fenjuHighService;
 
-  @RequestMapping(value = "/mobile", method = RequestMethod.GET)
+    @Autowired
+    private CtgChannelService ctgChannelService;
+
+
+    @RequestMapping(value = "/mobile", method = RequestMethod.GET)
   public List<MobileOrder> test(){
 //   List<MobileOrder> mobileOrders = mobileService.findMobiles(1);
    List<MobileOrder> mobileOrders = mobileService.findAllMobiles();
@@ -38,4 +44,9 @@ public class MobileController {
   public List<FenjuHigh> getFenjuHigh(){
     return fenjuHighService.findAllMobiles();
   }
+
+    @RequestMapping(value = "/ctgChannel", method = RequestMethod.GET)
+    public List<CtgChannel> getCtgChannel(){
+        return ctgChannelService.findAllMobiles();
+    }
 }
