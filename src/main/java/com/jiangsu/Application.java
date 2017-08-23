@@ -1,6 +1,5 @@
 package com.jiangsu;
 
-import com.jiangsu.crawler.Crawler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
