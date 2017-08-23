@@ -10,4 +10,5 @@ public interface MobileRepo extends PagingAndSortingRepository<MobileOrder, Long
 
   public List<MobileOrder> findByIdOrderByNumber(int id);
   public List<MobileOrder> findByIdGreaterThan(int id);
+
 }
