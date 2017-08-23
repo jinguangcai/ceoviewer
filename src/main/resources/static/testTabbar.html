@@ -14,11 +14,13 @@
         <mt-tab-container v-model="active">
 
             <mt-tab-container-item id="tab-container1">
-                <div>
+                <div id="ssfz">
                     <label>本月实时发展情况</label>
-                    <div id="fzl" style="width:200px;height:300px;"></div>
+                    <div id="fzl" style="width:90px;height:90px;float:left;margin-top:10px;"></div>
+                    <div id="sr" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
+                    <div id="cj" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
+                    <div id="ts" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
                 </div>
-                <button onclick="doClick()">click me</button>
             </mt-tab-container-item>
 
             <mt-tab-container-item id="tab-container2">
@@ -39,9 +41,6 @@
                         </td>
                         </tbody>
                     </table>
-                </div>
-                <div>
-
                 </div>
             </mt-tab-container-item>
         </mt-tab-container>
@@ -64,9 +63,10 @@
 <div>
 </div>
 </body>
-
 <!-- 先引入 Vue -->
 <script src="vue.js"></script>
+<script src="mint-ui.js"></script>
+
 <!-- 引入组件库 -->
 <script type="text/javascript">
   new Vue({
@@ -81,10 +81,8 @@
     }
   })
 
-     // 使用刚指定的配置项和数据显示图表。
-    function drawPie(data){
-
-        var myChart = echarts.init(document.getElementById('fzl'));
+     // 使用刚指定的配置项和数据显示饼图。
+    function drawPie(myChart,data){
         var option = {
             tooltip : {
                 trigger: 'item',
@@ -94,8 +92,8 @@
                 {
                     name: '访问来源',
                     type: 'pie',
-                    radius : '55%',
-                    center: ['50%', '60%'],
+                    radius : '70%',
+                    center: ['50%', '50%'],
                     data: data,
                     itemStyle: {
                         emphasis: {
@@ -110,27 +108,97 @@
         myChart.setOption(option);
    }
 
-    // 跳转到控制台
-   function load(){
-        alert("doClick...");
+    //定义多个不同的函数，很久url返回不同的data，返回
+    function fzl(myChart){
         $.ajax({
             url : '/mobile',
             async : true,
             type : "get",
             dataType : "json",
             success : function(data){
-                console.log(typeof data);
+                <!--console.log(typeof data);-->
                 var arr = [];
                 for(var i=0;i<data.length;i++){
                     arr.push(data[i].income);
                 }
-                drawPie(arr);
+                drawPie(myChart,arr);
             },
             error: function (err) {
                 console.log(err)
             }
         });
     }
+
+    function sr(myChart){
+        $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var arr = [];
+                for(var i=0;i<data.length;i++){
+                    arr.push(data[i].income);
+                }
+                drawPie(myChart,arr);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+
+    function cj(myChart){
+        $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var arr = [];
+                for(var i=0;i<data.length;i++){
+                    arr.push(data[i].income);
+                }
+                drawPie(myChart,arr);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+
+    function ts(myChart){
+        $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var arr = [];
+                for(var i=0;i<data.length;i++){
+                    arr.push(data[i].income);
+                }
+                drawPie(myChart,arr);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+
+    // 跳转到控制台
+   function load(){
+        var myChartFZL = echarts.init(document.getElementById('fzl'));
+        var myChartSR = echarts.init(document.getElementById('sr'));
+        var myChartCJ = echarts.init(document.getElementById('cj'));
+        var myChartTS = echarts.init(document.getElementById('ts'));
+        fzl(myChartFZL);
+        sr(myChartSR);
+        cj(myChartCJ);
+        ts(myChartTS);
+    }
 </script>
-<script src="mint-ui.js"></script>
 </html>
