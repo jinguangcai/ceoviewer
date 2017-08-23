@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="mint-ui.css">
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body onload="load()">
+    <div id = 'app'>
+        <mt-tab-container v-model="active">
+
+            <mt-tab-container-item id="tab-container1">
+                <div>
+                    <label>本月实时发展情况</label>
+                    <div id="fzl" style="width:200px;height:300px;"></div>
+                </div>
+                <button onclick="doClick()">click me</button>
+            </mt-tab-container-item>
+
+            <mt-tab-container-item id="tab-container2">
+                <div>
+                    <p>hello2</p>
+                </div>
+            </mt-tab-container-item>
+
+            <mt-tab-container-item id="tab-container3">
+               <p>hello3</p>
+                <div id="info">
+                    <img src="" width="80px" height="120px" style="margin-left:20px;float:left"/>
+                    <table style="margin-right:20px">
+                        <tbody>
+                        <td>
+                            <tr>姓名：张某某</tr>
+                            <tr>单位：秦淮支局</tr>
+                        </td>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+
+                </div>
+            </mt-tab-container-item>
+        </mt-tab-container>
+
+        <mt-tabbar v-model="active">
+            <mt-tab-item id="tab-container1">
+                <!--<img slot="icon" src="../assets/100x100.png">-->
+                我的绩效
+            </mt-tab-item>
+            <mt-tab-item id="tab-container2">
+                <!--<img slot="icon" src="../assets/100x100.png">-->
+                我的团队
+            </mt-tab-item>
+            <mt-tab-item id="tab-container3">
+                <!--<img slot="icon" src="../assets/100x100.png">-->
+                我的榜单
+            </mt-tab-item>
+        </mt-tabbar>
+    </div>
+<div>
+</div>
+</body>
+
+<!-- 先引入 Vue -->
+<script src="vue.js"></script>
+<!-- 引入组件库 -->
+<script type="text/javascript">
+  new Vue({
+    el: '#app',
+    data: {
+        active: 'tab-container1'
+    },
+    methods: {
+      handleClick: function() {
+        this.$toast('Hello world!')
+      }
+    }
+  })
+
+     // 使用刚指定的配置项和数据显示图表。
+    function drawPie(data){
+
+        var myChart = echarts.init(document.getElementById('fzl'));
+        var option = {
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data: data,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        myChart.setOption(option);
+   }
+
+    // 跳转到控制台
+   function load(){
+        alert("doClick...");
+        $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                console.log(typeof data);
+                var arr = [];
+                for(var i=0;i<data.length;i++){
+                    arr.push(data[i].income);
+                }
+                drawPie(arr);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+</script>
+<script src="mint-ui.js"></script>
+</html>
