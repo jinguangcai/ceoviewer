@@ -10,78 +10,100 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body onload="load()">
-    <div id = 'app'>
-        <mt-tab-container v-model="active">
-
-            <mt-tab-container-item id="tab-container1">
-                <div id="ssfz">
-                    <label>本月实时发展情况</label>
-                    <div id="fzl" style="width:90px;height:90px;float:left;margin-top:10px;"></div>
-                    <div id="sr" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
-                    <div id="cj" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
-                    <div id="ts" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
-                </div>
-                <div >
-                    <label>重点业务发展进度</label>
-                    <div id="zdyw" style="width:300px;height:100px;"></div>
-                </div>
-                <div style="margin-left:20px">
-                    <input type="date">-<input type="date">
-                    <button onclick="queryData()">查询历史数据</button>
-                    <table>
-
-                    </table>
-                </div>
-            </mt-tab-container-item>
-
-            <mt-tab-container-item id="tab-container2">
-                <div>
-                    <p>hello2</p>
-                </div>
-            </mt-tab-container-item>
-
-            <mt-tab-container-item id="tab-container3">
-               <p>hello3</p>
-                <div id="personInfo">
-                    <img src="" width="80px" height="120px" style="margin-left:20px;float:left"/>
-                    <table style="margin-right:30px">
-                        <tbody>
-                        <td>
-                            <tr>姓名：张某某</tr>
-                            <tr>  单位：秦淮支局</tr>
-                        </td>
-                        <td>
-                            <tr>发展量：</tr>
-                            <tr>收入：</tr>
-                        </td>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="yj">
-                    <label>昨日业绩排名(top5)：</label>
-
-                </div>
-            </mt-tab-container-item>
-        </mt-tab-container>
-
-        <mt-tabbar v-model="active">
-            <mt-tab-item id="tab-container1">
-                <!--<img slot="icon" src="../assets/100x100.png">-->
-                我的绩效
-            </mt-tab-item>
-            <mt-tab-item id="tab-container2">
-                <!--<img slot="icon" src="../assets/100x100.png">-->
-                我的团队
-            </mt-tab-item>
-            <mt-tab-item id="tab-container3">
-                <!--<img slot="icon" src="../assets/100x100.png">-->
-                我的榜单
-            </mt-tab-item>
-        </mt-tabbar>
-    </div>
-<div>
+<!--style="background-image:url(bk.PNG);background-size:auto 1400px;"-->
+<div id="Layer1" style="position:fixed; width:100%; height:100%; z-index:-1">
+    <img src="bk.PNG" height="100%" width="100%"/>
 </div>
+    <div id = 'app'>
+            <mt-tab-container v-model="active">
+
+                <mt-tab-container-item id="tab-container1">
+                    <div>
+                        <h3 style="align:center;">我的绩效</h3>
+                    </div>
+                    <div id="ssfz">
+                        <label>本月实时发展情况</label>
+                        <div id="fzl" style="width:90px;height:90px;float:left;margin-top:10px;"></div>
+                        <div id="sr" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
+                        <div id="cj" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
+                        <div id="ts" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
+                    </div>
+                    <div >
+                        <label>重点业务发展进度</label>
+                        <div id="zdyw" style="width:300px;height:100px;"></div>
+                    </div>
+                    <div style="margin-left:20px">
+                        <input type="date">-<input type="date">
+                        <label>选择业务：</label>
+                        <select>
+                            <option>天翼</option>
+                            <option>ITV</option>
+                        </select>
+                        <button onclick="queryData()">查询历史数据</button>
+
+                    </div>
+                </mt-tab-container-item>
+
+                <mt-tab-container-item id="tab-container2">
+                    <div>
+                        <h3>我的团队</h3>
+                    </div>
+                    <div id="qy">
+                        <div id="qyyw" style="width:300px;height:150px;"></div>
+                        <div id="qysr" style="width:300px;height:150px;"></div>
+                    </div>
+                </mt-tab-container-item>
+
+                <mt-tab-container-item id="tab-container3">
+                    <div id="personInfo">
+                        <img src="" width="80px" height="120px" style="margin-left:20px"/>
+                    </div>
+                    <div>
+                        <table style="margin-right:30px;border:1px;">
+                            <tbody>
+                            <tr>
+                                <td>姓名：张某某</td>
+                                <td>  单位：秦淮支局</td>
+                            </tr>
+                            <tr>
+                                <td>发展量：</td>
+                                <td>收入：</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="yjtop5">
+                        <label>昨日业绩排名(top5)：</label>
+                        <ul id="yjlist">
+                            <!--<li><img src="">秦淮</li>-->
+                        </ul>
+                    </div>
+
+                    <div id="zdywtop5">
+                        <label>昨日重点业务排名(top5):</label>
+                        <ul id="zdywlist">
+                            <!--<li><img src="">秦淮</li>-->
+                        </ul>
+                    </div>
+                </mt-tab-container-item>
+            </mt-tab-container>
+
+            <mt-tabbar v-model="active">
+                <mt-tab-item id="tab-container1">
+                    <!--<img slot="icon" src="../assets/100x100.png">-->
+                    我的绩效
+                </mt-tab-item>
+                <mt-tab-item id="tab-container2">
+                    <!--<img slot="icon" src="../assets/100x100.png">-->
+                    我的团队
+                </mt-tab-item>
+                <mt-tab-item id="tab-container3">
+                    <!--<img slot="icon" src="../assets/100x100.png">-->
+                    我的榜单
+                </mt-tab-item>
+            </mt-tabbar>
+    </div>
 </body>
 <!-- 先引入 Vue -->
 <script src="vue.js"></script>
@@ -104,7 +126,75 @@
   function queryData(){
 
   }
-
+//业务发展量柱状图
+function drawBarqyyw(myChart){
+    var option = {
+        title : {
+            text: '业务发展量'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        grid: {
+            left: '1%',
+            right: '1%',
+            bottom: '30%',
+            containLabel: true
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                data : ['秦淮区','白下区','江宁区','鼓楼区','浦口区']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'业务发展量',
+                type:'bar',
+                       itemStyle: {
+                    normal: {
+　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                        color: function(params) {
+                            // build a color map as your need.
+                            var colorList = [
+                              '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                               '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                               '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                            ];
+                            return colorList[params.dataIndex]
+                        }
+　　　　　　　　　　　　　　//以下为是否显示，显示位置和显示格式的设置了
+                        <!--label: {-->
+                            <!--show: true,-->
+                            <!--position: 'top',-->
+<!--//                             formatter: '{c}'-->
+                            <!--formatter: '{b}\n{c}'-->
+                        <!--}-->
+                    <!--}-->
+                },
+                data:[ 76.7, 135.6, 162.2, 32.6, 6.4],
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name: '平均值'}
+                    ]
+                }
+            }
+        ]
+    };
+    myChart.setOption(option);
+}
 
   //柱状图,先构造数据
   function drawBar(myChart){
@@ -260,6 +350,51 @@
         });
     }
 
+    //昨日业绩排名top5,遍历数组元素加入html中
+    function yjlist(){
+         $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var html = "";
+                for(var i=0;i<data.length;i++){
+                    var ls = data[i];
+                    html += "<li>"+ls.income+"</li>";
+                }
+                alert(html);
+                $("#yjlist").innerHtml=html;
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+     }
+    //昨日重点业务前top5 zdywlist
+    function zdywlist(){
+        $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var html = "";
+                for(var i=0;i<data.length;i++){
+                    var ls = data[i];
+                    html += "<li>"+ls.income+"</li>";
+                }
+                alert(html);
+                $("#zdywlist").html=html;
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+
     // 跳转到控制台
    function load(){
         //实时发展情况
@@ -274,6 +409,12 @@
         //重点业务进度
         var myChartZDYW = echarts.init(document.getElementById('zdyw'));
         drawBar(myChartZDYW);
+        var myChartQYYW = echarts.init(document.getElementById('qyyw'));
+        drawBarqyyw(myChartQYYW);
+
+        //业绩排名及重点业务排名
+        yjlist();
+        zdywlist();
     }
 </script>
 </html>
