@@ -4,4 +4,4 @@ spring:
     username: root
     password:
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+      database-platform: org.hibernate.dialect.MySQL5Dialect

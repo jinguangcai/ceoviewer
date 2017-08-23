@@ -3,9 +3,11 @@ package com.jiangsu.controller;
 
 import com.jiangsu.entity.CtgChannel;
 import com.jiangsu.entity.FenjuHigh;
+import com.jiangsu.entity.ImportantTask;
 import com.jiangsu.entity.MobileOrder;
 import com.jiangsu.service.CtgChannelService;
 import com.jiangsu.service.FenjuHighService;
+import com.jiangsu.service.ImportantTaskService;
 import com.jiangsu.service.MobileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,6 +34,8 @@ public class MobileController {
     @Autowired
     private CtgChannelService ctgChannelService;
 
+    @Autowired
+    private ImportantTaskService importantTaskService;
 
     @RequestMapping(value = "/mobile", method = RequestMethod.GET)
   public List<MobileOrder> test(){
@@ -45,8 +49,14 @@ public class MobileController {
     return fenjuHighService.findAllMobiles();
   }
 
-    @RequestMapping(value = "/ctgChannel", method = RequestMethod.GET)
-    public List<CtgChannel> getCtgChannel(){
-        return ctgChannelService.findAllMobiles();
-    }
+  @RequestMapping(value = "/ctgChannel", method = RequestMethod.GET)
+  public List<CtgChannel> getCtgChannel() {
+    return ctgChannelService.findAllMobiles();
+  }
+
+  @RequestMapping(value = "/importantTask", method = RequestMethod.GET)
+  public List<ImportantTask> getImportantTask(){
+    return importantTaskService.findAllImportantTasks();
+  }
+
 }
