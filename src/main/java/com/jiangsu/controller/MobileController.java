@@ -25,7 +25,8 @@ public class MobileController {
 
   @RequestMapping(value = "/mobile", method = RequestMethod.GET)
   public List<MobileOrder> test(){
-   List<MobileOrder> mobileOrders = mobileService.findMobiles(1);
+//   List<MobileOrder> mobileOrders = mobileService.findMobiles(1);
+   List<MobileOrder> mobileOrders = mobileService.findAllMobiles();
 
     return mobileOrders;
   }
