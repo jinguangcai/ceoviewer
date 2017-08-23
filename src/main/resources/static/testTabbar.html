@@ -21,6 +21,17 @@
                     <div id="cj" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
                     <div id="ts" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
                 </div>
+                <div >
+                    <label>重点业务发展进度</label>
+                    <div id="zdyw" style="width:300px;height:100px;"></div>
+                </div>
+                <div style="margin-left:20px">
+                    <input type="date">-<input type="date">
+                    <button onclick="queryData()">查询历史数据</button>
+                    <table>
+
+                    </table>
+                </div>
             </mt-tab-container-item>
 
             <mt-tab-container-item id="tab-container2">
@@ -31,16 +42,25 @@
 
             <mt-tab-container-item id="tab-container3">
                <p>hello3</p>
-                <div id="info">
+                <div id="personInfo">
                     <img src="" width="80px" height="120px" style="margin-left:20px;float:left"/>
-                    <table style="margin-right:20px">
+                    <table style="margin-right:30px">
                         <tbody>
                         <td>
                             <tr>姓名：张某某</tr>
-                            <tr>单位：秦淮支局</tr>
+                            <tr>  单位：秦淮支局</tr>
+                        </td>
+                        <td>
+                            <tr>发展量：</tr>
+                            <tr>收入：</tr>
                         </td>
                         </tbody>
                     </table>
+                </div>
+
+                <div id="yj">
+                    <label>昨日业绩排名(top5)：</label>
+
                 </div>
             </mt-tab-container-item>
         </mt-tab-container>
@@ -80,6 +100,57 @@
       }
     }
   })
+  //查询历史信息
+  function queryData(){
+
+  }
+
+
+  //柱状图,先构造数据
+  function drawBar(myChart){
+      var option = {
+        grid: {
+            left: '1%',
+            right: '1%',
+            bottom: '30%',
+            containLabel: true
+        },
+        xAxis:  {
+            type: 'value'
+        },
+        yAxis: {
+            type: 'category',
+            data: ['重点业务']
+        },
+        series: [
+            {
+                name: '已完成',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                },
+                data: [200]
+            },
+            {
+                name: '未完成',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                },
+                data: [100]
+            }
+        ]
+    };
+    myChart.setOption(option);
+  }
 
      // 使用刚指定的配置项和数据显示饼图。
     function drawPie(myChart,data){
@@ -108,7 +179,7 @@
         myChart.setOption(option);
    }
 
-    //定义多个不同的函数，很久url返回不同的data，返回
+    //定义多个不同的函数，很久url返回不同的data
     function fzl(myChart){
         $.ajax({
             url : '/mobile',
@@ -191,6 +262,7 @@
 
     // 跳转到控制台
    function load(){
+        //实时发展情况
         var myChartFZL = echarts.init(document.getElementById('fzl'));
         var myChartSR = echarts.init(document.getElementById('sr'));
         var myChartCJ = echarts.init(document.getElementById('cj'));
@@ -199,6 +271,9 @@
         sr(myChartSR);
         cj(myChartCJ);
         ts(myChartTS);
+        //重点业务进度
+        var myChartZDYW = echarts.init(document.getElementById('zdyw'));
+        drawBar(myChartZDYW);
     }
 </script>
 </html>
