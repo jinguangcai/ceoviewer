@@ -40,6 +40,9 @@ public class MobileController {
     @Autowired
     private ImportantTaskService importantTaskService;
 
+  @Autowired
+  private FenjuHighDescService fenjuHighDescService;
+
     @RequestMapping(value = "/mobile", method = RequestMethod.GET)
   public List<MobileOrder> test(){
 //   List<MobileOrder> mobileOrders = mobileService.findMobiles(1);
@@ -77,6 +80,9 @@ public class MobileController {
     return importantTaskService.findAllImportantTasks();
   }
 
-
+  @RequestMapping(value = "/fenjuHighDesc", method = RequestMethod.GET)
+  public List<FenjuHighDesc> getFenjuHighDesc(){
+    return fenjuHighDescService.findAllMobiles();
+  }
 
 }
