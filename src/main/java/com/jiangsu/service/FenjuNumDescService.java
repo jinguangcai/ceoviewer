@@ -23,6 +23,9 @@ public class FenjuNumDescService {
   public List<FenjuNumDesc> findAllMobiles(){
     return fenjuNumDescDao.findByIdGreaterThan(0);
   }
+  public List<FenjuNumDesc> findByLocation(String location){
+    return fenjuNumDescDao.findByLocationIsLike(location);
+  }
 /*
   public List<Sale> findAll(){
     return saleRepo.findAllByHouseExist();

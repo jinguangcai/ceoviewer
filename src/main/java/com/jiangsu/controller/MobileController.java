@@ -92,4 +92,8 @@ public class MobileController {
     return fenjuNumDescService.findAllMobiles();
   }
 
+  @RequestMapping(value = "/fenjunNumDescBylocation", method = RequestMethod.GET)
+  public List<FenjuNumDesc> getFenjuNunByLocation(){
+    return fenjuNumDescService.findByLocation("朝天宫分局");
+  }
 }
