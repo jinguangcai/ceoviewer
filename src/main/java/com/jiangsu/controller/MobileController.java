@@ -45,6 +45,9 @@ public class MobileController {
   @Autowired
   private  FenjuNumDescService fenjuNumDescService;
 
+  @Autowired
+  private  FenjuIncomeDescService fenjuIncomeDescService;
+
     @RequestMapping(value = "/mobile", method = RequestMethod.GET)
   public List<MobileOrder> test(){
 //   List<MobileOrder> mobileOrders = mobileService.findMobiles(1);
@@ -95,5 +98,10 @@ public class MobileController {
   @RequestMapping(value = "/fenjunNumDescBylocation", method = RequestMethod.GET)
   public List<FenjuNumDesc> getFenjuNunByLocation(){
     return fenjuNumDescService.findByLocation("朝天宫分局");
+  }
+
+  @RequestMapping(value = "/fenjuIncomeDesc", method = RequestMethod.GET)
+  public List<FenjuIncomeDesc> getFenjuIncomDesc(){
+    return fenjuIncomeDescService.findFenjuIncomes();
   }
 }
