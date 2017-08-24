@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="mint-ui.css">
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body onload="load()" style="margin:0;">
+    <div id="Layer1" style="position:fixed; width:100%; height:100%; z-index:-1">
+        <img height="100%" width="100%"/>
+    </div>
+    <div id = 'app'>
+            <mt-tab-container v-model="active">
+
+                <mt-tab-container-item id="tab-container1">
+                    <div>
+                        <h3 style="text-align:center;font-color:white;">我的绩效</h3>
+                    </div>
+                    <div id="ssfz">
+                        <label>本月实时发展情况</label>
+                        <div class="char-wrapper" style="display: flex;">
+                            <div id="fzl" style="width:25%;height:90px;float:left;margin-top:10px;"></div>
+                            <!--<div id="sr" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>-->
+                            <!--<div id="cj" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>-->
+                            <!--<div id="ts" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>-->
+                        </div>
+                    </div>
+                    <div>
+                        <label>本月重点业务发展进度</label>
+                        <div id="zdyw" style="width:300px;height:100px;"></div>
+                    </div>
+                    <div>
+                        <label></label>
+                        <div>
+                            <label>选择时间：</label>
+                            <input type="date">-<input type="date">
+                        </div>
+                        <div>
+                            <label>选择业务：</label>
+                            <select>
+                                <option>天翼</option>
+                                <option>ITV</option>
+                            </select>
+                        </div>
+                        <button onclick="queryData()">查询历史数据</button>
+                        <table>
+                            <thead>
+                                <th>
+
+                                </th>
+                            </thead>
+                        </table>
+                    </div>
+                </mt-tab-container-item>
+
+                <mt-tab-container-item id="tab-container2">
+                    <div>
+                        <h3 style="text-align:center">我的团队</h3>
+                    </div>
+                    <div id="qy">
+                        <div id="qyyw" style="width:80%;height:25%;"></div>
+                        <div id="qysr" style="width:80%;height:25%;"></div>
+                    </div>
+                </mt-tab-container-item>
+
+                <mt-tab-container-item id="tab-container3">
+                    <div>
+                        <h3 style="text-align:center">我的榜单</h3>
+                    </div>
+                    <div style="display:flex;">
+                        <div id="personInfo">
+                            <img src="" width="100px" height="160px" style="margin-left:20px"/>
+                        </div>
+                        <div>
+                            <table style="margin-right:40px;border:1px;">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="yjtop5" style="margin-left:10px;">
+                        <label>昨日业绩排名(top5)：</label>
+                        <ul id="yjlist">
+                            <!--<li><img src="">秦淮</li>-->
+                        </ul>
+                    </div>
+
+                    <div id="zdywtop5" style="margin-left:10px;">
+                        <label>昨日重点业务排名(top5):</label>
+                        <ul id="zdywlist">
+                            <!--<li><img src="">秦淮</li>-->
+                        </ul>
+                    </div>
+                </mt-tab-container-item>
+            </mt-tab-container>
+
+            <mt-tabbar v-model="active">
+                <mt-tab-item id="tab-container1">
+                    <img slot="icon" src="jixiao.png">
+                    我的绩效
+                </mt-tab-item>
+                <mt-tab-item id="tab-container2">
+                    <img slot="icon" src="tuandui.png">
+                    我的团队
+                </mt-tab-item>
+                <mt-tab-item id="tab-container3">
+                    <img slot="icon" src="bangdan.png">
+                    我的榜单
+                </mt-tab-item>
+            </mt-tabbar>
+    </div>
+</body>
+<!-- 先引入 Vue -->
+<script src="vue.js"></script>
+<script src="mint-ui.js"></script>
+<script src="axios.js"></script>
+
+<!-- 引入组件库 -->
+<script type="text/javascript">
+  new Vue({
+    el: '#app',
+    data: {
+        active: 'tab-container1'
+    },
+    methods: {
+      handleClick: function() {
+        this.$toast('Hello world!')
+      }
+    }
+  })
+  //查询历史信息
+  function queryData(){
+    <!--alert("query");-->
+  }
+
+ //区域收入折线图
+function drawLineqysr(myChart){
+    var option = {
+        title: {
+            text: '收入情况'
+        },
+        xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            data: ['区域1','区域2','区域3','区域4']
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        series: [
+            {
+                name:'收入总量',
+                type:'line',
+                data:[230, 390, 401, 290],
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            }
+        ]
+    };
+    myChart.setOption(option);
+}
+
+//区域业务发展量柱状图
+function drawBarqyyw(myChart){
+    var option = {
+        title : {
+            text: '业务发展量'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        grid: {
+            left: '1%',
+            right: '1%',
+            bottom: '10%',
+            containLabel: true
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                data : ['秦淮区','白下区','江宁区','鼓楼区','浦口区']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'业务发展量',
+                type:'bar',
+                       itemStyle: {
+                    normal: {
+　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                        color: function(params) {
+                            // build a color map as your need.
+                            var colorList = [
+                              '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                               '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                               '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                            ];
+                            return colorList[params.dataIndex]
+                        }
+　　　　　　　　　　　　　　//以下为是否显示，显示位置和显示格式的设置了
+                        <!--label: {-->
+                            <!--show: true,-->
+                            <!--position: 'top',-->
+<!--//                             formatter: '{c}'-->
+                            <!--formatter: '{b}\n{c}'-->
+                        <!--}-->
+                    }
+                },
+                data:[ 76.7, 135.6, 162.2, 32.6, 6.4],
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name: '平均值'}
+                    ]
+                }
+            }
+        ]
+    };
+    myChart.setOption(option);
+}
+
+  //重点业务完成进度柱状图,先构造数据
+  function drawBar(myChart){
+      var option = {
+        grid: {
+            left: '1%',
+            right: '1%',
+            bottom: '10%',
+            containLabel: true
+        },
+        xAxis:  {
+            type: 'value'
+        },
+        yAxis: {
+            type: 'category',
+            data: ['重点业务']
+        },
+        series: [
+            {
+                name: '已完成',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                },
+                data: [200]
+            },
+            {
+                name: '未完成',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                },
+                data: [100]
+            }
+        ]
+    };
+    myChart.setOption(option);
+  }
+
+     // 使用刚指定的配置项和数据显示饼图。
+    function drawPie(myChart,data){
+        var option = {
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius : '70%',
+                    center: ['50%', '50%'],
+                    data: data,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        myChart.setOption(option);
+   }
+
+    //定义多个不同的函数，很久url返回不同的data
+    //发展量饼图
+    function fzl(myChart){
+        $.ajax({
+            url : '/fenjunNumDescBylocation',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var arr = [];
+                for(var i=0;i<data.length;i++){
+                    arr.push(data[i].number);
+                }
+                arr.push(300-arr[0]);
+                drawPie(myChart,arr);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+    //收入饼图
+    function sr(myChart){
+    $.ajax({
+        url : '/fenjunIncomeDescBylocation',
+        async : true,
+        type : "get",
+        dataType : "json",
+        success : function(data){
+            <!--console.log(typeof data);-->
+            var arr = [];
+            for(var i=0;i<data.length;i++){
+                arr.push(data[i].mon);
+            }
+            arr.push(20000-arr[0]);
+            drawPie(myChart,arr);
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    });
+}
+    //催缴数据饼图
+    function cj(myChart){
+        $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var arr = [];
+                for(var i=0;i<data.length;i++){
+                    arr.push(data[i].income);
+                }
+                drawPie(myChart,arr);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+
+    //投诉量饼图
+    function ts(myChart){
+        $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var arr = [];
+                for(var i=0;i<data.length;i++){
+                    arr.push(data[i].income);
+                }
+                drawPie(myChart,arr);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+
+    //昨日业绩排名top5,遍历数组元素加入html中
+    function yjlist(){
+         $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var html = "";
+                for(var i=0;i<data.length;i++){
+                    var ls = data[i];
+                    html += "<li>"+ls.income+"</li>";
+                }
+                $("#yjlist").html(html);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+     }
+    //昨日重点业务前top5 zdywlist
+    function zdywlist(){
+        $.ajax({
+            url : '/mobile',
+            async : true,
+            type : "get",
+            dataType : "json",
+            success : function(data){
+                <!--console.log(typeof data);-->
+                var html = "";
+                for(var i=0;i<data.length;i++){
+                    var ls = data[i];
+                    html += "<li>"+ls.income+"</li>";
+                }
+                $("#zdywlist").html(html);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+
+//区域业务发展量柱状图
+functio drawBarfzl(myChart){
+    var option = {
+        title : {
+            text: '业务发展量'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        grid: {
+            left: '1%',
+            right: '1%',
+            bottom: '10%',
+            containLabel: true
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                data : ['发展量','收入','催缴数量','用户投诉处理量']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'业务发展量',
+                type:'bar',
+                       itemStyle: {
+                    normal: {
+　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                        color: function(params) {
+                            // build a color map as your need.
+                            var colorList = [
+                              '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                               '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                               '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                            ];
+                            return colorList[params.dataIndex]
+                        }
+　　　　　　　　　　　　　　//以下为是否显示，显示位置和显示格式的设置了
+                        <!--label: {-->
+                            <!--show: true,-->
+                            <!--position: 'top',-->
+<!--//                             formatter: '{c}'-->
+                            <!--formatter: '{b}\n{c}'-->
+                        <!--}-->
+                    }
+                },
+                data:[ 76.7, 135.6, 162.2, 32.6]
+            }
+        ]
+    };
+    myChart.setOption(option);
+}
+
+    // 跳转到控制台
+   function load(){
+        //实时发展情况
+        var myChartFZL = echarts.init(document.getElementById('fzl'));
+        var myChartSR = echarts.init(document.getElementById('sr'));
+        var myChartCJ = echarts.init(document.getElementById('cj'));
+        var myChartTS = echarts.init(document.getElementById('ts'));
+        fzl(myChartFZL);
+        sr(myChartSR);
+        cj(myChartCJ);
+        ts(myChartTS);
+        //重点业务进度
+        var myChartZDYW = echarts.init(document.getElementById('zdyw'));
+        drawBar(myChartZDYW);
+        //区域业务
+        var myChartQYYW = echarts.init(document.getElementById('qyyw'));
+        drawBarqyyw(myChartQYYW);
+        //区域收入
+        var myChartQYSR = echarts.init(document.getElementById('qysr'));
+        drawLineqysr(myChartQYSR);
+
+        //业绩排名及重点业务排名
+        yjlist();
+        zdywlist();
+    }
+</script>
+</html>

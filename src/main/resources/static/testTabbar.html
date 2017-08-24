@@ -8,111 +8,226 @@
     <!-- 引入 echarts.js -->
     <script src="echarts.min.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <!--引入css-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+
+    <!--引入JavaScript-->
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 </head>
-<body onload="load()" style="margin:0;">
-    <div id="Layer1" style="position:fixed; width:100%; height:100%; z-index:-1">
-        <img src="blackbg.jpg" height="100%" width="100%"/>
-    </div>
-    <div id = 'app'>
-            <mt-tab-container v-model="active">
+<body onload="load()" style="margin:0; padding-bottom: 60px;">
+<div id = 'app'>
+    <mt-tab-container v-model="active">
 
-                <mt-tab-container-item id="tab-container1">
-                    <div>
-                        <h3 style="text-align:center;font-color:white;">我的绩效</h3>
-                    </div>
-                    <div id="ssfz">
-                        <label>本月实时发展情况</label>
-                        <div class="char-wrapper" style="display: flex;">
-                            <div id="fzl" style="width:25%;height:90px;float:left;margin-top:10px;"></div>
-                            <div id="sr" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>
-                            <div id="cj" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>
-                            <div id="ts" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <label>本月重点业务发展进度</label>
-                        <div id="zdyw" style="width:300px;height:100px;"></div>
-                    </div>
-                    <div>
-                        <label></label>
-                        <div>
-                            <label>选择时间：</label>
-                            <input type="date">-<input type="date">
-                        </div>
-                        <div>
-                            <label>选择业务：</label>
-                            <select>
-                                <option>天翼</option>
-                                <option>ITV</option>
-                            </select>
-                        </div>
-                        <button onclick="queryData()">查询历史数据</button>
-                        <table>
-                            <thead>
-                                <th>
-
-                                </th>
-                            </thead>
-                        </table>
-                    </div>
-                </mt-tab-container-item>
-
-                <mt-tab-container-item id="tab-container2">
-                    <div>
-                        <h3 style="text-align:center">我的团队</h3>
-                    </div>
-                    <div id="qy">
-                        <div id="qyyw" style="width:400px;height:200px;"></div>
-                        <div id="qysr" style="width:400px;height:200px;"></div>
-                    </div>
-                </mt-tab-container-item>
-
-                <mt-tab-container-item id="tab-container3">
-                    <div>
-                        <h3 style="text-align:center">我的榜单</h3>
-                    </div>
-                    <div style="display:flex;">
-                        <div id="personInfo">
-                            <img src="" width="100px" height="160px" style="margin-left:20px"/>
-                        </div>
-                        <div>
-                            <table style="margin-right:40px;border:1px;">
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div id="yjtop5" style="margin-left:10px;">
-                        <label>昨日业绩排名(top5)：</label>
-                        <ul id="yjlist">
-                            <!--<li><img src="">秦淮</li>-->
-                        </ul>
-                    </div>
-
-                    <div id="zdywtop5" style="margin-left:10px;">
-                        <label>昨日重点业务排名(top5):</label>
-                        <ul id="zdywlist">
-                            <!--<li><img src="">秦淮</li>-->
-                        </ul>
-                    </div>
-                </mt-tab-container-item>
-            </mt-tab-container>
-
-            <mt-tabbar v-model="active">
-                <mt-tab-item id="tab-container1">
-                    <img slot="icon" src="jixiao.png">
+        <mt-tab-container-item id="tab-container1">
+            <div>
+                <h3 style="text-align:center;font-family:'微软雅黑';font-size:20px;">
                     我的绩效
-                </mt-tab-item>
-                <mt-tab-item id="tab-container2">
-                    <img slot="icon" src="tuandui.png">
+                    <hr>
+                </h3>
+            </div>
+            <div id="ssfz">
+                <label style="font-family:'微软雅黑';font-size:16px;"><b>本月实时发展情况</b></label>
+                <div class="char-wrapper" style="display: flex;">
+                    <div id="fzl" style="width:50%;height:150px;float:left;margin-top:10px;"></div>
+                    <div id="sr" style="width:50%;height:150px;float:auto;margin-top:10px;"></div>
+                    <!--<div id="cj" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>-->
+                    <!--<div id="ts" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>-->
+                </div>
+            </div>
+            <div>
+                <label style="font-family:'微软雅黑';font-size:16px;"><b>当月发展明细查询</b></label>
+                <div id="zdyw" style="width:300px;height:0px;display:none;"></div>
+            </div>
+            <div>
+                <table id="table_content" class="display" cellspacing="0" width="100%" style="font-family:'微软雅黑';font-size:14px;">
+                    <thead>
+                    <tr>
+                        <th>号码</th>
+                        <th>商铺</th>
+                        <th>员工</th>
+                        <th>种类</th>
+                        <th>时间</th>
+                        <th>价格</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>15366189548</td>
+                        <td>苏信升</td>
+                        <td>卜晓驰</td>
+                        <td>嗨无限</td>
+                        <td>2017-8-6</td>
+                        <td>300</td>
+                    </tr>
+                    <tr>
+                        <td>17326130944</td>
+                        <td>百派秣陵</td>
+                        <td>吴义伟</td>
+                        <td>嗨无限</td>
+                        <td>2017-8-7</td>
+                        <td>300</td>
+                    </tr>
+                    <tr>
+                        <td>17712882734</td>
+                        <td>曹丹明瓦廊</td>
+                        <td>曹丹</td>
+                        <td>4G乐享套餐</td>
+                        <td>2017-8-2</td>
+                        <td>599</td>
+                    </tr>
+                    <tr>
+                        <td>15366189548</td>
+                        <td>苏信升</td>
+                        <td>卜晓驰</td>
+                        <td>嗨无限</td>
+                        <td>2017-8-6</td>
+                        <td>300</td>
+                    </tr>
+                    <tr>
+                        <td>15366189548</td>
+                        <td>苏信丰</td>
+                        <td>李伟隆</td>
+                        <td>大众卡</td>
+                        <td>2017-8-5</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>17715254562</td>
+                        <td>苏信丰</td>
+                        <td>张洁睿</td>
+                        <td>嗨无限</td>
+                        <td>2017-8-2</td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td>15366189548</td>
+                        <td>苏信升</td>
+                        <td>卜晓驰</td>
+                        <td>嗨无限</td>
+                        <td>2017-8-6</td>
+                        <td>300</td>
+                    </tr>
+                    <tr>
+                        <td>15366189548</td>
+                        <td>曹丹明瓦廊</td>
+                        <td>曹丹</td>
+                        <td>4G乐享套餐</td>
+                        <td>2017-8-2</td>
+                        <td>599</td>
+                    </tr>
+                    <tr>
+                        <td>15366189548</td>
+                        <td>苏信升</td>
+                        <td>卜晓驰</td>
+                        <td>嗨无限</td>
+                        <td>2017-8-5</td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td>18020154846</td>
+                        <td>苏信升</td>
+                        <td>吴凡</td>
+                        <td>嗨无限</td>
+                        <td>017-7-31</td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td>15366189548</td>
+                        <td>苏信丰富</td>
+                        <td>李伟隆</td>
+                        <td>4G乐享套餐</td>
+                        <td>2017-8-4</td>
+                        <td>299</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mt-tab-container-item>
+
+        <mt-tab-container-item id="tab-container2">
+            <div>
+                <h3 style="text-align:center;font-family:'微软雅黑';font-size:20px;">
                     我的团队
-                </mt-tab-item>
-                <mt-tab-item id="tab-container3">
-                    <img slot="icon" src="bangdan.png">
+                    <hr>
+                </h3>
+            </div>
+            <div id="qy">
+                <div id="qyyw" style="width:300px;height:200px;margin: 0 auto;"></div>
+                <div id="qysr" style="width:300px;height:200px;margin: 0 auto;"></div>
+                <div id="ygfzl" style="width:300px;height:200px;margin: 0 auto;"></div>
+                <!--<div id="ygsr" style="width:300px;height:150px;margin: 0 auto;"></div>-->
+            </div>
+        </mt-tab-container-item>
+
+        <mt-tab-container-item id="tab-container3">
+            <div>
+                <h3 style="text-align:center;font-family:'微软雅黑';font-size:20px;">
                     我的榜单
-                </mt-tab-item>
-            </mt-tabbar>
-    </div>
+                    <hr>
+                </h3>
+            </div>
+            <div style="margin-left:80px">
+                <div id="personInfo" style="float:flex;">
+                    <img src="page3-1.jpg" width="100px" height="130px"/>
+                </div>
+                <div>
+                    <table style="margin-right:40px;border:1px;">
+                        <tbody>
+                            <tr>
+                                <td>姓名：张某某</td>
+                            </tr>
+                            <tr>
+                                <td>所属支局：秦淮政企分部</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="yjtop5">
+                <label style="font-family:'微软雅黑';font-size:16px;"><b>昨日业绩排名(top5)：</b></label>
+                <ol id="yjlist" style="margin-left:80px">
+                    <!--<li><img src="">秦淮</li>-->
+                    <li>秦淮政企分部</li>
+                    <li>新街口上商圈分局</li>
+                    <li>夫子庙分局</li>
+                    <li>洪武路分局</li>
+                    <li>五老村分局</li>
+                </ol>
+                <p>您所在分局排第 <i><b>13</b></i> 名</p>
+            </div>
+
+            <div id="zdywtop5">
+
+                <label style="font-family:'微软雅黑';font-size:16px;"><b>昨日重点业务排名(top5):</b></label>
+                <ul id="zdywlist" style="margin-left:80px">
+                    <!--<li><img src="">秦淮</li>-->
+                    <li>新街口上商圈分局</li>
+                    <li>夫子庙分局</li>
+                    <li>洪武路分局</li>
+                    <li>秦淮政企分部</li>
+                    <li>五老村分局</li>
+                </ul>
+                <p>您所在分局排第 <i><b>8</b></i> 名</p>
+            </div>
+        </mt-tab-container-item>
+    </mt-tab-container>
+
+    <mt-tabbar v-model="active" style="position: fixed">
+        <mt-tab-item id="tab-container1">
+            <img slot="icon" src="tab1.png">
+            我的绩效
+        </mt-tab-item>
+        <mt-tab-item id="tab-container2">
+            <img slot="icon" src="tab2.png">
+            我的团队
+        </mt-tab-item>
+        <mt-tab-item id="tab-container3">
+            <img slot="icon" src="tab3.png">
+            我的榜单
+        </mt-tab-item>
+    </mt-tabbar>
+</div>
 </body>
 <!-- 先引入 Vue -->
 <script src="vue.js"></script>
@@ -132,70 +247,26 @@
       }
     }
   })
-  //查询历史信息
-  function queryData(){
-    alert("query");
-  }
 
- //区域收入折线图
-function drawLineqysr(myChart){
-    var option = {
-        title: {
-            text: '收入情况'
-        },
-        xAxis:  {
-            type: 'category',
-            boundaryGap: false,
-            data: ['区域1','区域2','区域3','区域4']
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: {
-                formatter: '{value}'
-            }
-        },
-        series: [
-            {
-                name:'收入总量',
-                type:'line',
-                data:[230, 390, 401, 290],
-                markPoint: {
-                    data: [
-                        {type: 'max', name: '最大值'},
-                        {type: 'min', name: '最小值'}
-                    ]
-                },
-                markLine: {
-                    data: [
-                        {type: 'average', name: '平均值'}
-                    ]
-                }
-            }
-        ]
-    };
-    myChart.setOption(option);
-}
+
 
 //区域业务发展量柱状图
 function drawBarqyyw(myChart){
-    var option = {
-        title : {
-            text: '业务发展量'
+   var option = {
+       title : {
+            text: '门店业务发展量',
         },
-        tooltip : {
-            trigger: 'axis'
-        },
+        calculable : true,
         grid: {
             left: '1%',
             right: '1%',
-            bottom: '10%',
+            bottom: '1%',
             containLabel: true
         },
-        calculable : true,
         xAxis : [
             {
                 type : 'category',
-                data : ['秦淮区','白下区','江宁区','鼓楼区','浦口区']
+                 data : ['升州路店','丰富路店','明瓦廊店']
             }
         ],
         yAxis : [
@@ -205,44 +276,128 @@ function drawBarqyyw(myChart){
         ],
         series : [
             {
-                name:'业务发展量',
+                name:'天翼',
                 type:'bar',
-                       itemStyle: {
-                    normal: {
-　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
-                        color: function(params) {
-                            // build a color map as your need.
-                            var colorList = [
-                              '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
-                               '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
-                               '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
-                            ];
-                            return colorList[params.dataIndex]
-                        }
-　　　　　　　　　　　　　　//以下为是否显示，显示位置和显示格式的设置了
-                        <!--label: {-->
-                            <!--show: true,-->
-                            <!--position: 'top',-->
-<!--//                             formatter: '{c}'-->
-                            <!--formatter: '{b}\n{c}'-->
-                        <!--}-->
-                    }
-                },
-                data:[ 76.7, 135.6, 162.2, 32.6, 6.4],
-                markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值'},
-                        {type : 'min', name: '最小值'}
-                    ]
-                },
+                data:[9,18,6],
+                <!--markPoint : {-->
+                    <!--data : [-->
+                        <!--{type : 'max', name: '最大值'},-->
+                        <!--{type : 'min', name: '最小值'}-->
+                    <!--]-->
+                <!--},-->
                 markLine : {
                     data : [
                         {type : 'average', name: '平均值'}
                     ]
                 }
+            },
+             {
+                name:'宽带',
+                type:'bar',
+                data:[12,16,14],
+                <!--markPoint : {-->
+                    <!--data : [-->
+                        <!--{type : 'max', name: '最大值'},-->
+                        <!--{type : 'min', name: '最小值'}-->
+                    <!--]-->
+                <!--},-->
+                markLine : {
+                    data : [
+                        {type : 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'ITV',
+                type:'bar',
+                data:[15,18,13],
+                <!--markPoint : {-->
+                    <!--data : [-->
+                        <!--{type : 'max', name: '最大值'},-->
+                        <!--{type : 'min', name: '最小值'}-->
+                    <!--]-->
+                <!--},-->
+                markLine : {
+                    data : [
+                        {type : 'average', name : '平均值'}
+                    ]
+                }
             }
         ]
     };
+    myChart.setOption(option);
+}
+
+//区域收入折线图
+function drawLineqysr(myChart){
+    <!--var option = {-->
+        <!--title: {-->
+            <!--text: '收入情况'-->
+        <!--},-->
+        <!--grid: {-->
+            <!--left: '1%',-->
+            <!--right: '1%',-->
+            <!--bottom: '1%',-->
+            <!--containLabel: true-->
+        <!--},-->
+        <!--xAxis:  {-->
+            <!--type: 'category',-->
+            <!--boundaryGap: false,-->
+            <!--data : ['升州路店','丰富路店','明瓦廊店']-->
+        <!--},-->
+        <!--yAxis: {-->
+            <!--type: 'value',-->
+            <!--axisLabel: {-->
+                <!--formatter: '{value}'-->
+            <!--}-->
+        <!--},-->
+        <!--series: [-->
+            <!--{-->
+                <!--name:'收入总量',-->
+                <!--type:'line',-->
+                <!--data:[34510.4, 36518.8, 30182.4],-->
+                <!--markPoint: {-->
+                    <!--data: [-->
+                        <!--{type: 'max', name: '最大值'},-->
+                        <!--{type: 'min', name: '最小值'}-->
+                    <!--]-->
+                <!--},-->
+                <!--markLine: {-->
+                    <!--data: [-->
+                        <!--{type: 'average', name: '平均值'}-->
+                    <!--]-->
+                <!--}-->
+            <!--}-->
+        <!--]-->
+    <!--};-->
+    var option = {
+    title: {
+        text: '门店收入'
+    },
+     tooltip: {
+        trigger: 'item'
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+        type: 'category',
+        data : ['升州路店','丰富路店','明瓦廊店']
+    },
+    series: [
+        {
+            type: 'bar',
+            data:[34510.4, 36518.8, 30182.4],
+        }
+    ]
+};
     myChart.setOption(option);
 }
 
@@ -252,7 +407,7 @@ function drawBarqyyw(myChart){
         grid: {
             left: '1%',
             right: '1%',
-            bottom: '10%',
+            bottom: '1%',
             containLabel: true
         },
         xAxis:  {
@@ -293,19 +448,22 @@ function drawBarqyyw(myChart){
   }
 
      // 使用刚指定的配置项和数据显示饼图。
-    function drawPie(myChart,data){
+    function drawPieFZL(myChart,data){
         var option = {
-            tooltip : {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
-            },
+           tooltip: {
+                trigger: 'item'
+           },
             series : [
                 {
-                    name: '访问来源',
+                    name: '数据量',
                     type: 'pie',
-                    radius : '70%',
-                    center: ['50%', '50%'],
-                    data: data,
+                    radius : '45%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value: 335, name: '已完成'},
+                        {value: 84, name: '剩余'}
+                    ],
+                    color: ['#B22222','#191970'],
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
@@ -319,143 +477,180 @@ function drawBarqyyw(myChart){
         myChart.setOption(option);
    }
 
-    //定义多个不同的函数，很久url返回不同的data
-    //发展量饼图
-    function fzl(myChart){
-        $.ajax({
-            url : '/mobile',
-            async : true,
-            type : "get",
-            dataType : "json",
-            success : function(data){
-                <!--console.log(typeof data);-->
-                var arr = [];
-                for(var i=0;i<data.length;i++){
-                    arr.push(data[i].income);
-                }
-                drawPie(myChart,arr);
+    //本月收入饼图
+   function drawPieSR(myChart,data){
+        var option = {
+            tooltip: {
+                trigger: 'item'
             },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-    }
-    //收入饼图
-    function sr(myChart){
-        $.ajax({
-            url : '/mobile',
-            async : true,
-            type : "get",
-            dataType : "json",
-            success : function(data){
-                <!--console.log(typeof data);-->
-                var arr = [];
-                for(var i=0;i<data.length;i++){
-                    arr.push(data[i].income);
+            series : [
+                {
+                    type: 'pie',
+                    radius : '45%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:335, name:'已完成'},
+                        {value:120, name:'剩余'}
+                    ],
+                    color: ['#B22222','#191970'],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
                 }
-                drawPie(myChart,arr);
-            },
-            error: function (err) {
-                console.log(err)
+            ]
+        };
+        myChart.setOption(option);
+   }
+
+    //员工业务发展量
+    function drawYGFZL(myChart){
+        var option = {
+        title: {
+            text: '员工业务发展量'
+        },
+        grid: {
+            left: '1%',
+            right: '1%',
+            bottom: '1%',
+            containLabel: true
+        },
+        xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            data: ['吴凡','张艳','张杰','王伟','方健','吴怡睿','钱浩','付博','李远安','徐丽丽','赵艳梅']
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} '
             }
-        });
-    }
-    //催缴数据饼图
-    function cj(myChart){
-        $.ajax({
-            url : '/mobile',
-            async : true,
-            type : "get",
-            dataType : "json",
-            success : function(data){
-                <!--console.log(typeof data);-->
-                var arr = [];
-                for(var i=0;i<data.length;i++){
-                    arr.push(data[i].income);
-                }
-                drawPie(myChart,arr);
+        },
+        series: [
+            {
+                name:'天翼',
+                type:'line',
+                data:[2, 4, 9, 5, 7, 3, 3,2,4 ,7,5]
             },
-            error: function (err) {
-                console.log(err)
+            {
+                name:'ITV',
+                type:'line',
+                data:[2, 6, 13, 8, 13, 2, 1,4,6 ,9,11]
+                <!--markPoint: {-->
+                    <!--data: [-->
+                        <!--{type: 'max', name: '最大值'},-->
+                        <!--{type: 'min', name: '最小值'}-->
+                    <!--]-->
+                <!--},-->
+                <!--markLine: {-->
+                    <!--data: [-->
+                        <!--{type: 'average', name: '平均值'}-->
+                    <!--]-->
+                <!--}-->
+            },
+            {
+                name:'宽带',
+                type:'line',
+                data:[8,13, 10, 18, 12, 15, 17, 9, 11, 8, 7]
+                <!--markPoint: {-->
+                    <!--data: [-->
+                        <!--{name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}-->
+                    <!--]-->
+                <!--},-->
+                <!--markLine: {-->
+                    <!--data: [-->
+                        <!--{type: 'average', name: '平均值'},-->
+                        <!--[{-->
+                            <!--symbol: 'none',-->
+                            <!--x: '90%',-->
+                            <!--yAxis: 'max'-->
+                        <!--}, {-->
+                            <!--symbol: 'circle',-->
+                            <!--label: {-->
+                                <!--normal: {-->
+                                    <!--position: 'start',-->
+                                    <!--formatter: '最大值'-->
+                                <!--}-->
+                            <!--},-->
+                            <!--type: 'max',-->
+                            <!--name: '最高点'-->
+                        <!--}]-->
+                    <!--]-->
+                <!--}-->
             }
-        });
+        ]
+    };
+    myChart.setOption(option);
     }
 
-    //投诉量饼图
-    function ts(myChart){
-        $.ajax({
-            url : '/mobile',
-            async : true,
-            type : "get",
-            dataType : "json",
-            success : function(data){
-                <!--console.log(typeof data);-->
-                var arr = [];
-                for(var i=0;i<data.length;i++){
-                    arr.push(data[i].income);
-                }
-                drawPie(myChart,arr);
-            },
-            error: function (err) {
-                console.log(err)
+    //员工收入情况
+    function drawYGSR(myChart){
+        var option = {
+        title : {
+            text: '员工收入情况',
+            x:'center'
+        },
+        calculable : true,
+        series : [
+            {
+                name:'半径模式',
+                type:'pie',
+                radius : [20, 60],
+                center : ['25%', '50%'],
+                roseType : 'radius',
+                label: {
+                    normal: {
+                        show: false
+                    },
+                    emphasis: {
+                        show: true
+                    }
+                },
+                lableLine: {
+                    normal: {
+                        show: false
+                    },
+                    emphasis: {
+                        show: true
+                    }
+                },
+                data:[
+                    {value:1624, name:'吴凡'},
+                    {value:1793, name:'张艳'},
+                    {value:2397, name:'张杰'},
+                    {value:2535, name:'王伟'},
+                    {value:1398, name:'方健'},
+                    {value:2019, name:'吴怡睿'},
+                    {value:875, name:'钱浩'},
+                    {value:936, name:'付博'},
+                    {value:1231, name:'李远安'},
+                    {value:2023, name:'徐丽丽'},
+                    {value:1830, name:'赵艳梅'},
+                ]
             }
-        });
+        ]
+    };
+        myChart.setOption(option);
     }
-
-    //昨日业绩排名top5,遍历数组元素加入html中
-    function yjlist(){
-         $.ajax({
-            url : '/mobile',
-            async : true,
-            type : "get",
-            dataType : "json",
-            success : function(data){
-                <!--console.log(typeof data);-->
-                var html = "";
-                for(var i=0;i<data.length;i++){
-                    var ls = data[i];
-                    html += "<li>"+ls.income+"</li>";
-                }
-                $("#yjlist").html(html);
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-     }
-    //昨日重点业务前top5 zdywlist
-    function zdywlist(){
-        $.ajax({
-            url : '/mobile',
-            async : true,
-            type : "get",
-            dataType : "json",
-            success : function(data){
-                <!--console.log(typeof data);-->
-                var html = "";
-                for(var i=0;i<data.length;i++){
-                    var ls = data[i];
-                    html += "<li>"+ls.income+"</li>";
-                }
-                $("#zdywlist").html(html);
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-    }
-
     // 跳转到控制台
    function load(){
+     $('#table_content').DataTable({
+        "bPaginate": false,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": false,
+        'language': {
+            'search': '检索:'
+            },
+            "bAutoWidth": false });
         //实时发展情况
         var myChartFZL = echarts.init(document.getElementById('fzl'));
+        drawPieFZL(myChartFZL);
         var myChartSR = echarts.init(document.getElementById('sr'));
-        var myChartCJ = echarts.init(document.getElementById('cj'));
-        var myChartTS = echarts.init(document.getElementById('ts'));
-        fzl(myChartFZL);
-        sr(myChartSR);
-        cj(myChartCJ);
-        ts(myChartTS);
+        drawPieSR(myChartSR)
         //重点业务进度
         var myChartZDYW = echarts.init(document.getElementById('zdyw'));
         drawBar(myChartZDYW);
@@ -465,10 +660,56 @@ function drawBarqyyw(myChart){
         //区域收入
         var myChartQYSR = echarts.init(document.getElementById('qysr'));
         drawLineqysr(myChartQYSR);
+        //员工发展量
+        var myChartYGFZL = echarts.init(document.getElementById('ygfzl'));
+        drawYGFZL(myChartYGFZL);
+        //员工收入
+        var myChartYGSR = echarts.init(document.getElementById('ygsr'));
+        <!--drawYGSR(myChartYGSR);-->
 
         //业绩排名及重点业务排名
-        yjlist();
-        zdywlist();
     }
+
+     //定义多个不同的函数，很久url返回不同的data
+    <!--//发展量饼图-->
+    <!--function fzl(myChart){-->
+        <!--$.ajax({-->
+            <!--url : '/mobile',-->
+            <!--async : true,-->
+            <!--type : "get",-->
+            <!--dataType : "json",-->
+            <!--success : function(data){-->
+                <!--&lt;!&ndash;console.log(typeof data);&ndash;&gt;-->
+                <!--var arr = [];-->
+                <!--for(var i=0;i<data.length;i++){-->
+                    <!--arr.push(data[i].income);-->
+                <!--}-->
+                <!--drawPieFZL(myChart,arr);-->
+            <!--},-->
+            <!--error: function (err) {-->
+                <!--console.log(err)-->
+            <!--}-->
+        <!--});-->
+    <!--}-->
+    <!--//收入饼图-->
+    <!--function sr(myChart){-->
+        <!--$.ajax({-->
+            <!--url : '/mobile',-->
+            <!--async : true,-->
+            <!--type : "get",-->
+            <!--dataType : "json",-->
+            <!--success : function(data){-->
+                <!--&lt;!&ndash;console.log(typeof data);&ndash;&gt;-->
+                <!--var arr = [];-->
+                <!--for(var i=0;i<data.length;i++){-->
+                    <!--arr.push(data[i].income);-->
+                <!--}-->
+                <!--drawPieSR(myChart,arr);-->
+            <!--},-->
+            <!--error: function (err) {-->
+                <!--console.log(err)-->
+            <!--}-->
+        <!--});-->
+    <!--}-->
 </script>
 </html>
