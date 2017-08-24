@@ -10,9 +10,8 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body onload="load()" style="margin:0;">
-<!--style="background-image:url(bk.PNG);background-size:auto 1400px;"-->
     <div id="Layer1" style="position:fixed; width:100%; height:100%; z-index:-1">
-        <img src="bk.PNG" height="100%" width="100%"/>
+        <img src="blackbg.jpg" height="100%" width="100%"/>
     </div>
     <div id = 'app'>
             <mt-tab-container v-model="active">
@@ -135,7 +134,7 @@
   })
   //查询历史信息
   function queryData(){
-
+    alert("query");
   }
 
  //区域收入折线图
