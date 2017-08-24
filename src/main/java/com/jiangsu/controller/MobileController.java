@@ -1,14 +1,8 @@
 package com.jiangsu.controller;
 
 
-import com.jiangsu.entity.CtgChannel;
-import com.jiangsu.entity.FenjuHigh;
-import com.jiangsu.entity.ImportantTask;
-import com.jiangsu.entity.MobileOrder;
-import com.jiangsu.service.CtgChannelService;
-import com.jiangsu.service.FenjuHighService;
-import com.jiangsu.service.ImportantTaskService;
-import com.jiangsu.service.MobileService;
+import com.jiangsu.entity.*;
+import com.jiangsu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +29,15 @@ public class MobileController {
     private CtgChannelService ctgChannelService;
 
     @Autowired
+    private CtgPersonService ctgPersonService;
+
+    @Autowired
+    private IncomeCtgPersonService incomeCtgPersonService;
+
+    @Autowired
+    private ResultCeoService resultCeoService;
+
+    @Autowired
     private ImportantTaskService importantTaskService;
 
     @RequestMapping(value = "/mobile", method = RequestMethod.GET)
@@ -54,9 +57,26 @@ public class MobileController {
     return ctgChannelService.findAllMobiles();
   }
 
+  @RequestMapping(value = "/ctgPerson", method = RequestMethod.GET)
+  public List<CtgPerson> getCtgPerson(){
+      return ctgPersonService.findAllMobiles();
+  }
+
+    @RequestMapping(value = "/incomeCtgPerson", method = RequestMethod.GET)
+    public List<IncomeCtgPerson> getIncomeCtgPerson() {
+        return incomeCtgPersonService.findAllMobiles();
+    }
+
+    @RequestMapping(value = "/resultCeo", method = RequestMethod.GET)
+    public List<ResultCeo> getResultCeo(){
+        return resultCeoService.findAllMobiles();
+    }
+
   @RequestMapping(value = "/importantTask", method = RequestMethod.GET)
   public List<ImportantTask> getImportantTask(){
     return importantTaskService.findAllImportantTasks();
   }
+
+
 
 }
