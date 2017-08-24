@@ -9,7 +9,7 @@
     <script src="echarts.min.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
-<body onload="load()">
+<body onload="load()" style="margin:0;">
 <!--style="background-image:url(bk.PNG);background-size:auto 1400px;"-->
     <div id="Layer1" style="position:fixed; width:100%; height:100%; z-index:-1">
         <img src="bk.PNG" height="100%" width="100%"/>
@@ -19,68 +19,78 @@
 
                 <mt-tab-container-item id="tab-container1">
                     <div>
-                        <h3 style="align:center;">我的绩效</h3>
+                        <h3 style="text-align:center;font-color:white;">我的绩效</h3>
                     </div>
                     <div id="ssfz">
                         <label>本月实时发展情况</label>
-                        <div id="fzl" style="width:90px;height:90px;float:left;margin-top:10px;"></div>
-                        <div id="sr" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
-                        <div id="cj" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
-                        <div id="ts" style="width:90px;height:90px;float:auto;margin-top:10px;"></div>
+                        <div class="char-wrapper" style="display: flex;">
+                            <div id="fzl" style="width:25%;height:90px;float:left;margin-top:10px;"></div>
+                            <div id="sr" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>
+                            <div id="cj" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>
+                            <div id="ts" style="width:25%;height:90px;float:auto;margin-top:10px;"></div>
+                        </div>
                     </div>
-                    <div >
-                        <label>重点业务发展进度</label>
+                    <div>
+                        <label>本月重点业务发展进度</label>
                         <div id="zdyw" style="width:300px;height:100px;"></div>
                     </div>
-                    <div style="margin-left:20px">
-                        <input type="date">-<input type="date">
-                        <label>选择业务：</label>
-                        <select>
-                            <option>天翼</option>
-                            <option>ITV</option>
-                        </select>
+                    <div>
+                        <label></label>
+                        <div>
+                            <label>选择时间：</label>
+                            <input type="date">-<input type="date">
+                        </div>
+                        <div>
+                            <label>选择业务：</label>
+                            <select>
+                                <option>天翼</option>
+                                <option>ITV</option>
+                            </select>
+                        </div>
                         <button onclick="queryData()">查询历史数据</button>
+                        <table>
+                            <thead>
+                                <th>
 
+                                </th>
+                            </thead>
+                        </table>
                     </div>
                 </mt-tab-container-item>
 
                 <mt-tab-container-item id="tab-container2">
                     <div>
-                        <h3>我的团队</h3>
+                        <h3 style="text-align:center">我的团队</h3>
                     </div>
                     <div id="qy">
-                        <div id="qyyw" style="width:300px;height:150px;"></div>
-                        <div id="qysr" style="width:300px;height:150px;"></div>
+                        <div id="qyyw" style="width:400px;height:200px;"></div>
+                        <div id="qysr" style="width:400px;height:200px;"></div>
                     </div>
                 </mt-tab-container-item>
 
                 <mt-tab-container-item id="tab-container3">
-                    <div id="personInfo">
-                        <img src="" width="80px" height="120px" style="margin-left:20px"/>
-                    </div>
                     <div>
-                        <table style="margin-right:30px;border:1px;">
-                            <tbody>
-                            <tr>
-                                <td>姓名：张某某</td>
-                                <td>  单位：秦淮支局</td>
-                            </tr>
-                            <tr>
-                                <td>发展量：</td>
-                                <td>收入：</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <h3 style="text-align:center">我的榜单</h3>
                     </div>
+                    <div style="display:flex;">
+                        <div id="personInfo">
+                            <img src="" width="100px" height="160px" style="margin-left:20px"/>
+                        </div>
+                        <div>
+                            <table style="margin-right:40px;border:1px;">
 
-                    <div id="yjtop5">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="yjtop5" style="margin-left:10px;">
                         <label>昨日业绩排名(top5)：</label>
                         <ul id="yjlist">
                             <!--<li><img src="">秦淮</li>-->
                         </ul>
                     </div>
 
-                    <div id="zdywtop5">
+                    <div id="zdywtop5" style="margin-left:10px;">
                         <label>昨日重点业务排名(top5):</label>
                         <ul id="zdywlist">
                             <!--<li><img src="">秦淮</li>-->
@@ -91,15 +101,15 @@
 
             <mt-tabbar v-model="active">
                 <mt-tab-item id="tab-container1">
-                    <!--<img slot="icon" src="../assets/100x100.png">-->
+                    <img slot="icon" src="jixiao.png">
                     我的绩效
                 </mt-tab-item>
                 <mt-tab-item id="tab-container2">
-                    <!--<img slot="icon" src="../assets/100x100.png">-->
+                    <img slot="icon" src="tuandui.png">
                     我的团队
                 </mt-tab-item>
                 <mt-tab-item id="tab-container3">
-                    <!--<img slot="icon" src="../assets/100x100.png">-->
+                    <img slot="icon" src="bangdan.png">
                     我的榜单
                 </mt-tab-item>
             </mt-tabbar>
@@ -127,7 +137,47 @@
   function queryData(){
 
   }
-//业务发展量柱状图
+
+ //区域收入折线图
+function drawLineqysr(myChart){
+    var option = {
+        title: {
+            text: '收入情况'
+        },
+        xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            data: ['区域1','区域2','区域3','区域4']
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        series: [
+            {
+                name:'收入总量',
+                type:'line',
+                data:[230, 390, 401, 290],
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            }
+        ]
+    };
+    myChart.setOption(option);
+}
+
+//区域业务发展量柱状图
 function drawBarqyyw(myChart){
     var option = {
         title : {
@@ -139,7 +189,7 @@ function drawBarqyyw(myChart){
         grid: {
             left: '1%',
             right: '1%',
-            bottom: '30%',
+            bottom: '10%',
             containLabel: true
         },
         calculable : true,
@@ -197,13 +247,13 @@ function drawBarqyyw(myChart){
     myChart.setOption(option);
 }
 
-  //柱状图,先构造数据
+  //重点业务完成进度柱状图,先构造数据
   function drawBar(myChart){
       var option = {
         grid: {
             left: '1%',
             right: '1%',
-            bottom: '30%',
+            bottom: '10%',
             containLabel: true
         },
         xAxis:  {
@@ -271,6 +321,7 @@ function drawBarqyyw(myChart){
    }
 
     //定义多个不同的函数，很久url返回不同的data
+    //发展量饼图
     function fzl(myChart){
         $.ajax({
             url : '/mobile',
@@ -290,7 +341,7 @@ function drawBarqyyw(myChart){
             }
         });
     }
-
+    //收入饼图
     function sr(myChart){
         $.ajax({
             url : '/mobile',
@@ -310,7 +361,7 @@ function drawBarqyyw(myChart){
             }
         });
     }
-
+    //催缴数据饼图
     function cj(myChart){
         $.ajax({
             url : '/mobile',
@@ -331,6 +382,7 @@ function drawBarqyyw(myChart){
         });
     }
 
+    //投诉量饼图
     function ts(myChart){
         $.ajax({
             url : '/mobile',
@@ -365,8 +417,7 @@ function drawBarqyyw(myChart){
                     var ls = data[i];
                     html += "<li>"+ls.income+"</li>";
                 }
-                alert(html);
-                $("#yjlist").innerHtml=html;
+                $("#yjlist").html(html);
             },
             error: function (err) {
                 console.log(err)
@@ -387,8 +438,7 @@ function drawBarqyyw(myChart){
                     var ls = data[i];
                     html += "<li>"+ls.income+"</li>";
                 }
-                alert(html);
-                $("#zdywlist").html=html;
+                $("#zdywlist").html(html);
             },
             error: function (err) {
                 console.log(err)
@@ -410,8 +460,12 @@ function drawBarqyyw(myChart){
         //重点业务进度
         var myChartZDYW = echarts.init(document.getElementById('zdyw'));
         drawBar(myChartZDYW);
+        //区域业务
         var myChartQYYW = echarts.init(document.getElementById('qyyw'));
         drawBarqyyw(myChartQYYW);
+        //区域收入
+        var myChartQYSR = echarts.init(document.getElementById('qysr'));
+        drawLineqysr(myChartQYSR);
 
         //业绩排名及重点业务排名
         yjlist();
