@@ -11,7 +11,7 @@
 </head>
 <body onload="load()" style="margin:0;">
     <div id="Layer1" style="position:fixed; width:100%; height:100%; z-index:-1">
-        <img src="blackbg.jpg" height="100%" width="100%"/>
+        <img src="bk.PNG" height="100%" width="100%"/>
     </div>
     <div id = 'app'>
             <mt-tab-container v-model="active">
@@ -323,7 +323,7 @@ function drawBarqyyw(myChart){
     //发展量饼图
     function fzl(myChart){
         $.ajax({
-            url : '/mobile',
+            url : '/fenjunNumDescBylocation',
             async : true,
             type : "get",
             dataType : "json",
@@ -331,8 +331,9 @@ function drawBarqyyw(myChart){
                 <!--console.log(typeof data);-->
                 var arr = [];
                 for(var i=0;i<data.length;i++){
-                    arr.push(data[i].income);
+                    arr.push(data[i].number);
                 }
+                arr.push(300);
                 drawPie(myChart,arr);
             },
             error: function (err) {
