@@ -42,6 +42,8 @@ public class MobileController {
 
   @Autowired
   private FenjuHighDescService fenjuHighDescService;
+  @Autowired
+  private  FenjuNumDescService fenjuNumDescService;
 
     @RequestMapping(value = "/mobile", method = RequestMethod.GET)
   public List<MobileOrder> test(){
@@ -83,6 +85,11 @@ public class MobileController {
   @RequestMapping(value = "/fenjuHighDesc", method = RequestMethod.GET)
   public List<FenjuHighDesc> getFenjuHighDesc(){
     return fenjuHighDescService.findAllMobiles();
+  }
+
+  @RequestMapping(value = "/fenjunNumDesc", method = RequestMethod.GET)
+  public List<FenjuNumDesc> getFenjuNumDesc(){
+    return fenjuNumDescService.findAllMobiles();
   }
 
 }
